@@ -1,1 +1,731 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,maximum-scale=1"/>
+<meta name="theme-color" content="#000000"/>
+<title>SFL Bypass 2.0 — JIYYAD TOOLS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --bg:#000;--card:#0c0c0e;--card2:#121216;--line:#1e1e24;--line2:#2a2a32;
+  --text:#f5f5f7;--muted:#8e8e93;--faint:#5c5c62;--green:#30d158;
+  --white:#fff;--black:#000;--btn-bg:#fff;--btn-fg:#000;
+  --input-bg:#000;--shadow:0 12px 40px rgba(0,0,0,.35);
+  --radius:18px;--font:Inter,system-ui,-apple-system,sans-serif;
+  --ease:cubic-bezier(.22,1,.36,1);
+}
+[data-theme="light"]{
+  --bg:#f2f2f7;--card:#fff;--card2:#fff;--line:#e5e5ea;--line2:#d1d1d6;
+  --text:#1c1c1e;--muted:#6c6c70;--faint:#8e8e93;--green:#248a3d;
+  --white:#1c1c1e;--black:#fff;--btn-bg:#1c1c1e;--btn-fg:#fff;
+  --input-bg:#f2f2f7;--shadow:0 12px 40px rgba(0,0,0,.08);
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{min-height:100%;background:var(--bg);color:var(--text);font-family:var(--font);-webkit-font-smoothing:antialiased;transition:background .4s var(--ease),color .3s var(--ease)}
+.wrap{max-width:440px;margin:0 auto;padding:max(12px,env(safe-area-inset-top)) 16px max(28px,env(safe-area-inset-bottom));min-height:100vh}
 
+/* top nav */
+.nav{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:16px;padding:4px 0}
+.nav-left{display:flex;align-items:center;gap:8px}
+.pill-btn{
+  height:36px;padding:0 12px;border-radius:100px;border:1px solid var(--line2);
+  background:var(--card2);color:var(--text);display:flex;align-items:center;gap:6px;
+  font-size:12px;font-weight:600;
+}
+.pill-btn .dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green)}
+.brand{font-size:13px;font-weight:700;letter-spacing:-.2px}
+.brand span{color:var(--muted);font-weight:500}
+.nav-right{display:flex;gap:6px}
+.icon-btn{
+  width:36px;height:36px;border-radius:50%;border:1px solid var(--line2);
+  background:var(--card2);color:var(--text);display:flex;align-items:center;justify-content:center;cursor:pointer;
+}
+.icon-btn svg{width:16px;height:16px}
+
+/* status card */
+.status-card{
+  background:var(--card2);border:1px solid var(--line);border-radius:20px;padding:16px 18px;margin-bottom:22px;box-shadow:var(--shadow);transition:background .35s,border-color .35s;
+}
+.clock-row{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.clock{font-size:28px;font-weight:700;letter-spacing:-1px;font-variant-numeric:tabular-nums;line-height:1}
+.clock .sec{color:var(--muted);font-weight:500;font-size:20px}
+.tz{font-size:10px;font-weight:600;border:1px solid var(--line2);padding:3px 8px;border-radius:100px;color:var(--muted);margin-left:8px;vertical-align:middle}
+.date{font-size:12px;color:var(--muted);margin-top:6px}
+.bat{text-align:right;font-size:12px}
+.bat .pct{font-weight:700;font-size:15px}
+.bat .lbl{color:var(--green);font-size:11px;font-weight:600}
+.weather{font-size:12px;color:var(--muted);margin-top:10px;display:flex;align-items:center;gap:6px}
+
+/* hero */
+.center{text-align:center;margin-bottom:22px}
+.badge-live{
+  display:inline-flex;align-items:center;gap:7px;
+  background:var(--card2);border:1px solid var(--line2);
+  padding:7px 14px;border-radius:100px;font-size:11px;font-weight:700;
+  letter-spacing:.6px;margin-bottom:16px;
+}
+.badge-live .dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green)}
+.center h1{font-size:36px;font-weight:800;letter-spacing:-1.2px;line-height:1.05;margin-bottom:12px}
+.center p{font-size:14px;color:var(--muted);line-height:1.55;max-width:34ch;margin:0 auto}
+
+/* chips */
+.chips{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin:18px 0 22px}
+.chip{
+  padding:8px 14px;border-radius:100px;border:1px solid var(--line2);
+  background:var(--card2);font-size:12.5px;font-weight:600;color:var(--text);
+}
+
+/* input card */
+.card{
+  background:var(--card2);border:1px solid var(--line);border-radius:22px;padding:18px;margin-bottom:18px;
+  box-shadow:var(--shadow);transition:background .35s,border-color .35s,box-shadow .35s;
+}
+.card-label{
+  font-size:11px;font-weight:700;letter-spacing:.7px;color:var(--muted);
+  display:flex;align-items:center;gap:6px;margin-bottom:12px;
+}
+.card-label svg{width:14px;height:14px}
+.input-box{
+  display:flex;align-items:center;gap:10px;
+  background:var(--input-bg);border:1px solid var(--line2);border-radius:14px;padding:0 14px;height:52px;margin-bottom:10px;transition:border-color .25s,background .3s;
+}
+.input-box svg{width:16px;height:16px;color:var(--faint);flex-shrink:0}
+.input-box input{
+  flex:1;min-width:0;height:100%;border:none;background:transparent;color:var(--text);
+  font-size:14px;font-family:var(--font);outline:none;
+}
+.input-box input::placeholder{color:var(--faint)}
+.btn{
+  width:100%;height:52px;border:none;border-radius:14px;
+  font-family:var(--font);font-size:15px;font-weight:700;
+  display:flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;
+  transition:transform .15s var(--ease),opacity .15s;
+}
+.btn:active{transform:scale(.98)}
+.btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.btn-ghost{
+  background:var(--card);border:1px solid var(--line2);color:var(--text);margin-bottom:10px;
+}
+.btn-primary{background:var(--btn-bg);color:var(--btn-fg)}
+.btn svg{width:18px;height:18px}
+.feats{
+  display:flex;flex-wrap:wrap;justify-content:center;gap:12px 16px;
+  margin-top:14px;font-size:11.5px;color:var(--faint);font-weight:500;
+}
+.feats span{display:inline-flex;align-items:center;gap:5px}
+.feats svg{width:12px;height:12px}
+
+/* how to */
+.section-title{
+  text-align:center;font-size:11px;font-weight:700;letter-spacing:1.2px;color:var(--faint);
+  margin:8px 0 12px;
+}
+.how{display:flex;flex-direction:column;gap:10px;margin-bottom:20px}
+.how-item{
+  display:flex;gap:14px;align-items:flex-start;
+  background:var(--card2);border:1px solid var(--line);border-radius:16px;padding:14px 16px;
+}
+.how-ic{
+  width:40px;height:40px;border-radius:12px;border:1px solid var(--line2);
+  background:var(--card);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--text);
+}
+.how-ic svg{width:18px;height:18px}
+.how-item h4{font-size:14px;font-weight:700;margin-bottom:3px}
+.how-item p{font-size:12.5px;color:var(--muted);line-height:1.4}
+
+/* PROCESS STAGES */
+.process{
+  display:none;background:var(--card2);border:1px solid var(--line);
+  border-radius:22px;padding:18px;margin-bottom:18px;box-shadow:var(--shadow);
+}
+.process.on{display:block;animation:up .45s var(--ease)}
+@keyframes up{from{opacity:0;transform:translateY(14px) scale(.98)}to{opacity:1;transform:none}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes pop{0%{transform:scale(.92);opacity:0}100%{transform:scale(1);opacity:1}}
+.chip,.how-item,.pill-btn,.icon-btn,.status-card,.card{
+  transition:background .3s var(--ease),border-color .3s,color .25s,transform .25s var(--ease),box-shadow .3s;
+}
+.chip:active,.how-item:active{transform:scale(.98)}
+.btn{transition:transform .2s var(--ease),opacity .2s,background .25s,color .25s,box-shadow .25s}
+.btn-primary:hover:not(:disabled){box-shadow:0 8px 24px rgba(0,0,0,.2)}
+[data-theme="light"] .btn-primary:hover:not(:disabled){box-shadow:0 8px 24px rgba(0,0,0,.15)}
+.step{transition:opacity .3s}
+.step-num{transition:all .35s var(--ease)}
+.result.on{animation:up .5s var(--ease)}
+.how-item{transition:transform .25s var(--ease),background .3s,border-color .3s}
+
+.process-head{
+  display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;
+}
+.process-head h3{font-size:12px;font-weight:700;letter-spacing:.8px;color:var(--muted)}
+.process-head .engine{font-size:10px;font-weight:600;color:var(--faint);border:1px solid var(--line2);padding:3px 8px;border-radius:100px}
+.steps{display:flex;flex-direction:column;gap:0}
+.step{
+  display:flex;gap:12px;align-items:flex-start;padding:10px 0;position:relative;
+}
+.step:not(:last-child)::before{
+  content:'';position:absolute;left:13px;top:34px;bottom:-2px;width:2px;background:var(--line2);
+}
+.step.done:not(:last-child)::before{background:var(--green)}
+.step-num{
+  width:28px;height:28px;border-radius:50%;border:1.5px solid var(--line2);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  font-size:11px;font-weight:700;color:var(--faint);background:var(--card);
+  position:relative;z-index:1;transition:all .3s var(--ease);
+}
+.step.active .step-num{
+  border-color:var(--btn-bg);color:var(--btn-fg);background:var(--btn-bg);
+  box-shadow:0 0 0 4px color-mix(in srgb, var(--btn-bg) 18%, transparent);
+}
+.step.done .step-num{
+  border-color:var(--green);background:var(--green);color:#000;
+}
+.step-body h4{font-size:13.5px;font-weight:650;margin-bottom:2px;color:var(--muted);transition:color .25s}
+.step.active .step-body h4,.step.done .step-body h4{color:var(--text)}
+.step-body p{font-size:11.5px;color:var(--faint)}
+.step.active .step-body p{color:var(--muted)}
+
+.spin-sm{
+  width:14px;height:14px;border:1.5px solid rgba(0,0,0,.25);border-top-color:#000;
+  border-radius:50%;animation:spin .6s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* result */
+.result{display:none}
+.result.on{display:block;animation:up .35s var(--ease)}
+.result-banner{
+  text-align:center;padding:12px;border-radius:14px;margin-bottom:14px;
+  font-size:12px;font-weight:700;letter-spacing:.5px;
+}
+.result-banner.ok{background:rgba(48,209,88,.12);color:var(--green);border:1px solid rgba(48,209,88,.25)}
+.result-banner.fail{background:rgba(255,69,58,.1);color:#ff453a;border:1px solid rgba(255,69,58,.25)}
+.result-url{
+  background:var(--input-bg);border:1px solid var(--line2);border-radius:14px;padding:14px;
+  font-size:13px;word-break:break-all;line-height:1.45;margin-bottom:12px;color:var(--text);
+}
+.result-url a{color:var(--text);text-decoration:none}
+.result-actions{display:flex;gap:8px}
+.result-actions .btn{flex:1;height:48px;font-size:14px}
+.btn-outline{background:transparent;border:1px solid var(--line2);color:var(--text)}
+
+.foot{text-align:center;padding:20px 0 8px;font-size:11px;color:var(--faint)}
+.foot strong{color:var(--muted);font-weight:600}
+
+.toast{
+  position:fixed;left:50%;bottom:28px;transform:translateX(-50%) translateY(12px);
+  background:var(--btn-bg);color:var(--btn-fg);padding:10px 18px;border-radius:100px;
+  font-size:13px;font-weight:650;opacity:0;pointer-events:none;z-index:50;
+  transition:opacity .25s,transform .25s var(--ease);
+}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+
+[data-theme="light"] .result-banner.ok{background:rgba(36,138,61,.1);color:#1b7a34;border-color:rgba(36,138,61,.25)}
+[data-theme="light"] .result-banner.fail{background:rgba(255,59,48,.08);color:#d70015;border-color:rgba(255,59,48,.2)}
+[data-theme="light"] .badge-live .dot,[data-theme="light"] .pill-btn .dot{box-shadow:0 0 6px var(--green)}
+[data-theme="light"] .status-card,[data-theme="light"] .card,[data-theme="light"] .process,[data-theme="light"] .how-item{box-shadow:var(--shadow)}
+
+/* tabs */
+.main-tabs{display:flex;gap:6px;background:var(--card2);border:1px solid var(--line);border-radius:14px;padding:4px;margin-bottom:18px}
+.main-tab{
+  flex:1;height:40px;border:none;border-radius:10px;background:transparent;
+  color:var(--muted);font-family:var(--font);font-size:13px;font-weight:650;
+  cursor:pointer;transition:all .25s var(--ease);
+}
+.main-tab.active{background:var(--btn-bg);color:var(--btn-fg)}
+.view{display:none}
+.view.on{display:block;animation:fadeIn .35s var(--ease)}
+
+/* music */
+.m-search{display:flex;gap:8px;margin-bottom:14px}
+.m-search input{
+  flex:1;height:48px;border-radius:14px;border:1px solid var(--line2);
+  background:var(--input-bg);color:var(--text);padding:0 14px;
+  font-family:var(--font);font-size:14px;outline:none;
+}
+.m-search input:focus{border-color:var(--muted)}
+.m-search .btn{width:auto;padding:0 18px;height:48px;flex-shrink:0}
+.m-list{display:flex;flex-direction:column;gap:6px;max-height:42vh;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.m-row{
+  display:flex;align-items:center;gap:12px;padding:10px 12px;
+  border-radius:14px;border:1px solid transparent;cursor:pointer;
+  transition:background .2s,border-color .2s;
+}
+.m-row:hover,.m-row.playing{background:var(--card2);border-color:var(--line)}
+.m-art{width:48px;height:48px;border-radius:10px;object-fit:cover;background:var(--line);flex-shrink:0}
+.m-info{flex:1;min-width:0}
+.m-title{font-size:14px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.m-sub{font-size:12px;color:var(--muted);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.m-play-ic{width:36px;height:36px;border-radius:50%;border:none;background:var(--btn-bg);color:var(--btn-fg);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;cursor:pointer}
+.m-play-ic svg{width:16px;height:16px}
+.m-empty{text-align:center;padding:32px 12px;color:var(--faint);font-size:13px}
+.m-player{
+  position:sticky;bottom:0;margin-top:12px;
+  background:var(--card2);border:1px solid var(--line);border-radius:18px;
+  padding:12px 14px;box-shadow:var(--shadow);display:none;
+}
+.m-player.on{display:block;animation:up .35s var(--ease)}
+.mp-top{display:flex;align-items:center;gap:12px}
+.mp-art{width:52px;height:52px;border-radius:10px;object-fit:cover;background:var(--line)}
+.mp-meta{flex:1;min-width:0}
+.mp-meta .t{font-size:14px;font-weight:650;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mp-meta .a{font-size:12px;color:var(--muted);margin-top:2px}
+.mp-btn{width:44px;height:44px;border-radius:50%;border:none;background:var(--btn-bg);color:var(--btn-fg);
+  display:flex;align-items:center;justify-content:center;cursor:pointer}
+.mp-btn svg{width:18px;height:18px}
+.mp-prog{margin-top:10px}
+.mp-bar{height:4px;border-radius:4px;background:var(--line2);cursor:pointer;overflow:hidden}
+.mp-fill{height:100%;width:0;background:var(--btn-bg);border-radius:4px;transition:width .1s linear}
+.mp-times{display:flex;justify-content:space-between;font-size:10px;color:var(--faint);margin-top:4px;font-variant-numeric:tabular-nums}
+</style>
+</head>
+<body>
+<div class="wrap" style="animation:fadeIn .5s var(--ease)">
+  <nav class="nav">
+    <div class="nav-left">
+      <div class="pill-btn"><span class="dot"></span> Online</div>
+      <div class="brand">SFL<span>BYPASS</span></div>
+    </div>
+    <div class="nav-right">
+      <button type="button" class="icon-btn" id="theme-btn" title="Theme">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      </button>
+    </div>
+  </nav>
+
+  <div class="status-card">
+    <div class="clock-row">
+      <div>
+        <div class="clock"><span id="hh">--</span>:<span id="mm">--</span><span class="sec">:<span id="ss">--</span></span><span class="tz" id="tz">WITA</span></div>
+        <div class="date" id="date">—</div>
+      </div>
+      <div class="bat">
+        <div class="pct" id="bat-pct">—</div>
+        <div class="lbl" id="bat-lbl">Baterai</div>
+      </div>
+    </div>
+    <div class="weather" id="weather">JIYYAD TOOLS · SFL Bypass 2.0</div>
+  </div>
+
+  
+<div class="main-tabs">
+  <button type="button" class="main-tab active" data-view="bypass">Bypass</button>
+  <button type="button" class="main-tab" data-view="music">Musik</button>
+</div>
+
+<div class="view on" id="view-bypass">
+<div class="center">
+
+    <div class="badge-live"><span class="dot"></span> BYPASS SAFELINKU</div>
+    <h1>SFL Bypass</h1>
+    <p>Dapatkan link tujuan asli dari Safelinku / sfl.gl tanpa nunggu redirect panjang. Tempel link, tekan bypass.</p>
+  </div>
+
+  <div class="chips">
+    <span class="chip">sfl.gl</span>
+    <span class="chip">Safelinku</span>
+    <span class="chip">clk.ink</span>
+    <span class="chip">Linkduit</span>
+    <span class="chip">Linkvertise</span>
+    <span class="chip">dan 40+ layanan lain</span>
+  </div>
+
+  <div class="card" id="input-card">
+    <div class="card-label">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+      MASUKKAN LINK
+    </div>
+    <div class="input-box">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2"/></svg>
+      <input id="url" type="url" placeholder="https://sfl.gl/..." autocomplete="off" spellcheck="false"/>
+    </div>
+    <button type="button" class="btn btn-ghost" id="paste">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M4 16V6a2 2 0 0 1 2-2h10"/></svg>
+      Tempel
+    </button>
+    <button type="button" class="btn btn-primary" id="go">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+      Bypass Sekarang
+    </button>
+    <div class="feats">
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg> Cepat</span>
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> API Zyvor</span>
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg> Ikut redirect otomatis</span>
+    </div>
+  </div>
+
+  <!-- PROCESS -->
+  <div class="process" id="process">
+    <div class="process-head">
+      <h3>PROSES BYPASS</h3>
+      <span class="engine">jiyyad-core</span>
+    </div>
+    <div class="steps" id="steps">
+      <div class="step" data-i="0">
+        <div class="step-num">1</div>
+        <div class="step-body"><h4>Membaca link</h4><p>Memvalidasi format URL</p></div>
+      </div>
+      <div class="step" data-i="1">
+        <div class="step-num">2</div>
+        <div class="step-body"><h4>Deteksi platform</h4><p>Mengenali jenis shortlink</p></div>
+      </div>
+      <div class="step" data-i="2">
+        <div class="step-num">3</div>
+        <div class="step-body"><h4>Membuka koneksi aman</h4><p>Koneksi terenkripsi ke server</p></div>
+      </div>
+      <div class="step" data-i="3">
+        <div class="step-num">4</div>
+        <div class="step-body"><h4>Melewati redirect</h4><p>Ikutin redirect sampai final</p></div>
+      </div>
+      <div class="step" data-i="4">
+        <div class="step-num">5</div>
+        <div class="step-body"><h4>Mengambil hasil</h4><p>Menyusun link final</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RESULT -->
+  <div class="result card" id="result">
+    <div class="result-banner ok" id="rbanner">LINK FINAL SIAP</div>
+    <div class="result-url"><a id="rdest" href="#" target="_blank" rel="noopener"></a></div>
+    <div class="result-actions">
+      <button type="button" class="btn btn-primary" id="open">Buka Link Final</button>
+      <button type="button" class="btn btn-outline" id="copy">Salin Link</button>
+    </div>
+    <button type="button" class="btn btn-ghost" id="again" style="margin-top:10px">Bypass Link Lain</button>
+  </div>
+
+  <div class="section-title">CARA PAKAI</div>
+  <div class="how">
+    <div class="how-item">
+      <div class="how-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M4 16V6a2 2 0 0 1 2-2h10"/></svg></div>
+      <div><h4>Tempel link</h4><p>Salin link Safelinku dari browser, lalu tempel di kolom atas.</p></div>
+    </div>
+    <div class="how-item">
+      <div class="how-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
+      <div><h4>Tekan bypass</h4><p>Sistem otomatis proses lewat API dan mengikuti redirect sampai final.</p></div>
+    </div>
+    <div class="how-item">
+      <div class="how-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6M10 14L21 3"/></svg></div>
+      <div><h4>Ambil link final</h4><p>Buka atau salin link tujuan asli langsung dari kartu hasil.</p></div>
+    </div>
+  </div>
+
+  
+</div><!-- /view-bypass -->
+
+<div class="view" id="view-music">
+  <div class="center" style="margin-bottom:16px">
+    <div class="badge-live"><span class="dot"></span> MUSIC SEARCH</div>
+    <h1 style="font-size:28px">Cari & Putar</h1>
+    <p>Cari lagu, putar preview 30 detik. Powered by iTunes Search.</p>
+  </div>
+  <div class="card">
+    <div class="m-search">
+      <input id="mq" type="search" placeholder="Judul, artis, album…" autocomplete="off"/>
+      <button type="button" class="btn btn-primary" id="msearch">Cari</button>
+    </div>
+    <div class="m-list" id="mlist">
+      <div class="m-empty">Ketik kata kunci lalu tekan Cari</div>
+    </div>
+    <div class="m-player" id="mplayer">
+      <div class="mp-top">
+        <img class="mp-art" id="mp-art" src="" alt=""/>
+        <div class="mp-meta">
+          <div class="t" id="mp-title">—</div>
+          <div class="a" id="mp-artist">—</div>
+        </div>
+        <button type="button" class="mp-btn" id="mp-toggle" title="Play/Pause">
+          <svg id="mp-ic" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+        </button>
+      </div>
+      <div class="mp-prog">
+        <div class="mp-bar" id="mp-bar"><div class="mp-fill" id="mp-fill"></div></div>
+        <div class="mp-times"><span id="mp-cur">0:00</span><span id="mp-dur">0:30</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="foot">SFL Bypass 2.0 · <strong>JIYYAD TOOLS</strong></div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const $ = s => document.querySelector(s);
+const $$ = s => document.querySelectorAll(s);
+const url = $('#url'), go = $('#go'), paste = $('#paste');
+const processEl = $('#process'), resultEl = $('#result');
+let busy = false, stepTimer = null, finalDest = '';
+
+function toast(m){
+  const t=$('#toast'); t.textContent=m; t.classList.add('on');
+  clearTimeout(toast._); toast._=setTimeout(()=>t.classList.remove('on'),2000);
+}
+
+
+/* theme */
+const root=document.documentElement;
+const saved=localStorage.getItem('sfl_theme')||'dark';
+root.setAttribute('data-theme',saved);
+function toggleTheme(){
+  const next=root.getAttribute('data-theme')==='dark'?'light':'dark';
+  root.setAttribute('data-theme',next);
+  localStorage.setItem('sfl_theme',next);
+  const ic=$('#theme-btn svg');
+  if(ic){
+    ic.innerHTML = next==='light'
+      ? '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>'
+      : '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>';
+  }
+  toast(next==='light'?'Mode terang':'Mode gelap');
+}
+$('#theme-btn').onclick=toggleTheme;
+
+/* clock */
+function tick(){
+  const n=new Date();
+  $('#hh').textContent=String(n.getHours()).padStart(2,'0');
+  $('#mm').textContent=String(n.getMinutes()).padStart(2,'0');
+  $('#ss').textContent=String(n.getSeconds()).padStart(2,'0');
+  const hari=['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+  const bln=['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+  $('#date').textContent=`${hari[n.getDay()]}, ${n.getDate()} ${bln[n.getMonth()]} ${n.getFullYear()}`;
+}
+setInterval(tick,1000); tick();
+
+/* battery */
+if(navigator.getBattery){
+  navigator.getBattery().then(b=>{
+    const upd=()=>{
+      $('#bat-pct').textContent=Math.round(b.level*100)+'%';
+      $('#bat-lbl').textContent=b.charging?'Mengisi':'Baterai';
+    };
+    upd(); b.addEventListener('levelchange',upd); b.addEventListener('chargingchange',upd);
+  }).catch(()=>{});
+}
+
+function setStep(activeIdx){
+  $$('.step').forEach((el,i)=>{
+    el.classList.remove('active','done');
+    const num=el.querySelector('.step-num');
+    if(i<activeIdx){
+      el.classList.add('done');
+      num.innerHTML='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg>';
+    } else if(i===activeIdx){
+      el.classList.add('active');
+      num.innerHTML='<div class="spin-sm"></div>';
+    } else {
+      num.textContent=String(i+1);
+    }
+  });
+}
+
+function resetSteps(){
+  $$('.step').forEach((el,i)=>{
+    el.classList.remove('active','done');
+    el.querySelector('.step-num').textContent=String(i+1);
+  });
+}
+
+function startSteps(){
+  processEl.classList.add('on');
+  resultEl.classList.remove('on');
+  resetSteps();
+  let i=0;
+  setStep(0);
+  clearInterval(stepTimer);
+  stepTimer=setInterval(()=>{
+    i++;
+    if(i<5) setStep(i);
+    else clearInterval(stepTimer);
+  },700);
+}
+
+function finishSteps(ok){
+  clearInterval(stepTimer);
+  $$('.step').forEach((el,i)=>{
+    el.classList.remove('active');
+    el.classList.add('done');
+    el.querySelector('.step-num').innerHTML='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg>';
+  });
+}
+
+function showResult(dest, ok, errMsg){
+  finishSteps(ok);
+  resultEl.classList.add('on');
+  const ban=$('#rbanner');
+  if(ok){
+    ban.className='result-banner ok';
+    ban.textContent='LINK FINAL SIAP';
+    finalDest=dest;
+    const a=$('#rdest'); a.textContent=dest; a.href=dest;
+    $('#open').style.display='';
+    $('#copy').style.display='';
+  } else {
+    ban.className='result-banner fail';
+    ban.textContent='BYPASS GAGAL';
+    $('#rdest').textContent=errMsg||'Terjadi kesalahan.';
+    $('#rdest').removeAttribute('href');
+    finalDest='';
+  }
+  processEl.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+async function run(){
+  const v=url.value.trim();
+  if(!v){toast('Masukkan link dulu');url.focus();return}
+  if(busy)return;
+  busy=true; go.disabled=true;
+  go.innerHTML='<div class="spin-sm" style="border-color:rgba(0,0,0,.2);border-top-color:#000"></div> Memproses…';
+  startSteps();
+  try{
+    const r=await fetch('/api/bypass',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({url:v})
+    });
+    const d=await r.json();
+    await new Promise(res=>setTimeout(res,400));
+    if(d.status && d.result?.destination_url){
+      showResult(d.result.destination_url, true);
+      toast('Berhasil');
+    } else {
+      showResult('', false, d.error||'Gagal bypass link');
+      toast('Gagal');
+    }
+  }catch(e){
+    showResult('', false, 'Tidak bisa terhubung ke server.');
+    toast('Error jaringan');
+  }finally{
+    busy=false; go.disabled=false;
+    go.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg> Bypass Sekarang';
+  }
+}
+
+paste.onclick=async()=>{
+  try{
+    const t=await navigator.clipboard.readText();
+    if(t){url.value=t.trim();toast('Ditempel')}
+  }catch{toast('Clipboard diblokir')}
+};
+go.onclick=run;
+url.addEventListener('keydown',e=>{if(e.key==='Enter')run()});
+$('#open').onclick=()=>{if(finalDest)window.open(finalDest,'_blank','noopener')};
+$('#copy').onclick=async()=>{
+  if(!finalDest)return;
+  try{await navigator.clipboard.writeText(finalDest);toast('Disalin')}catch{toast('Gagal salin')}
+};
+$('#again').onclick=()=>{
+  resultEl.classList.remove('on');
+  processEl.classList.remove('on');
+  resetSteps();
+  url.focus();
+};
+
+function esc(s){return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+/* ——— views ——— */
+$$('.main-tab').forEach(btn=>{
+  btn.onclick=()=>{
+    $$('.main-tab').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    $$('.view').forEach(v=>v.classList.remove('on'));
+    const id='view-'+btn.dataset.view;
+    document.getElementById(id)?.classList.add('on');
+  };
+});
+
+/* ——— music ——— */
+const audioMus=new Audio();
+audioMus.preload='none';
+let mPlaying=false, mTracks=[], mIdx=-1;
+const PLAY_P='<path d="M8 5v14l11-7z"/>', PAUSE_P='<path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/>';
+function fmtT(s){s=Math.max(0,s|0);return Math.floor(s/60)+':'+String(s%60).padStart(2,'0')}
+function proxyAudio(u){
+  if(!u)return '';
+  if(!location.protocol.startsWith('http')) return u;
+  return '/api/proxy-audio?url='+encodeURIComponent(u);
+}
+function renderMList(list){
+  const box=$('#mlist');
+  if(!list.length){box.innerHTML='<div class="m-empty">Tidak ada hasil</div>';return}
+  box.innerHTML=list.map((t,i)=>`
+    <div class="m-row ${i===mIdx?'playing':''}" data-i="${i}">
+      <img class="m-art" src="${esc(t.artwork||'')}" alt="" onerror="this.style.opacity=.3"/>
+      <div class="m-info"><div class="m-title">${esc(t.title)}</div><div class="m-sub">${esc(t.artist)}${t.album?' · '+esc(t.album):''}</div></div>
+      <button type="button" class="m-play-ic" data-i="${i}"><svg viewBox="0 0 24 24" fill="currentColor">${i===mIdx&&mPlaying?PAUSE_P:PLAY_P}</svg></button>
+    </div>`).join('');
+  box.querySelectorAll('.m-row').forEach(row=>{
+    row.onclick=(e)=>{
+      if(e.target.closest('.m-play-ic')) return;
+      playTrack(+row.dataset.i);
+    };
+  });
+  box.querySelectorAll('.m-play-ic').forEach(b=>{
+    b.onclick=(e)=>{e.stopPropagation();playTrack(+b.dataset.i)};
+  });
+}
+async function searchMusic(){
+  const q=$('#mq').value.trim();
+  if(!q){toast('Ketik kata kunci');return}
+  const box=$('#mlist');
+  box.innerHTML='<div class="m-empty">Mencari…</div>';
+  try{
+    if(!location.protocol.startsWith('http')){
+      box.innerHTML='<div class="m-empty">Jalankan server (npm start) untuk pencarian</div>';
+      return;
+    }
+    const r=await fetch('/api/music/search?q='+encodeURIComponent(q));
+    const d=await r.json();
+    mTracks=d.results||[];
+    mIdx=-1;
+    renderMList(mTracks);
+  }catch(e){
+    box.innerHTML='<div class="m-empty">Gagal mencari</div>';
+  }
+}
+function playTrack(i){
+  const t=mTracks[i]; if(!t)return;
+  if(i===mIdx && mPlaying){audioMus.pause();mPlaying=false;updateMUI();return}
+  if(i===mIdx && !mPlaying){audioMus.play();mPlaying=true;updateMUI();return}
+  if(!t.preview){toast('Tidak ada preview');return}
+  mIdx=i;
+  audioMus.src=proxyAudio(t.preview);
+  audioMus.play().then(()=>{mPlaying=true;updateMUI()}).catch(()=>toast('Tidak bisa putar'));
+  $('#mplayer').classList.add('on');
+  $('#mp-art').src=t.artwork||'';
+  $('#mp-title').textContent=t.title;
+  $('#mp-artist').textContent=t.artist;
+  renderMList(mTracks);
+}
+function updateMUI(){
+  const ic=$('#mp-ic');
+  if(ic) ic.innerHTML=mPlaying?PAUSE_P:PLAY_P;
+  renderMList(mTracks);
+}
+$('#msearch').onclick=searchMusic;
+$('#mq').addEventListener('keydown',e=>{if(e.key==='Enter')searchMusic()});
+$('#mp-toggle').onclick=()=>{
+  if(!audioMus.src)return;
+  if(audioMus.paused){audioMus.play();mPlaying=true}else{audioMus.pause();mPlaying=false}
+  updateMUI();
+};
+audioMus.addEventListener('timeupdate',()=>{
+  const d=audioMus.duration||30, c=audioMus.currentTime||0;
+  $('#mp-fill').style.width=((c/d)*100)+'%';
+  $('#mp-cur').textContent=fmtT(c);
+  $('#mp-dur').textContent=fmtT(d);
+});
+audioMus.addEventListener('ended',()=>{mPlaying=false;updateMUI()});
+$('#mp-bar').onclick=(e)=>{
+  if(!audioMus.duration)return;
+  const r=e.currentTarget.getBoundingClientRect();
+  audioMus.currentTime=((e.clientX-r.left)/r.width)*audioMus.duration;
+};
+
+</script>
+</body>
+</html>
